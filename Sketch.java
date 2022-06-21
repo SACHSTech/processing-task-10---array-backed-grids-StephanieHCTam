@@ -17,7 +17,7 @@ public class Sketch extends PApplet {
   int screen_Height = (column_Count* cell_Height) + ((column_Count + 1) * margin);
   int row;
   int column;
-  int totalCell = 0;
+  int totalGreen = 0;
   
   // 2-D array of integers
   int[][] intGrid;
@@ -75,62 +75,99 @@ public class Sketch extends PApplet {
           // cell pressed
           if (intGrid[row][column] == 1) {
             intGrid[row][column] = 0;
-            totalCell--;
+            totalGreen--;
           }
           else if (intGrid[row][column] == 0) {
             intGrid[row][column] = 1;
-            totalCell++;
+            totalGreen++;
           }
 
           // above cell pressed
           if(row > 0 && intGrid[row -1][column] ==  1){
             intGrid[row-1][column] = 0;
-            totalCell--;
+            totalGreen--;
           }
           else if(row > 0 && intGrid[row -1][column] == 0 ){
             intGrid[row - 1][column] = 1;
-            totalCell++;
+            totalGreen++;
           }
 
           // below cell pressed
           if(row < 9 && intGrid[row + 1][column] == 1){
             intGrid[row + 1][column] = 0;
-            totalCell--;
+            totalGreen--;
           }
           else if (row < 9 && intGrid[row + 1][column]== 0 ){
             intGrid[row + 1][column] = 1;
-            totalCell++;
+            totalGreen++;
           }
 
           // right of cell pressed
           if(column < 9 && intGrid[row][column + 1] == 0 ){
             intGrid[row][column + 1] = 1;
-            totalCell++;
+            totalGreen++;
           }
           else if(column < 9 && intGrid[row][column + 1] == 1){
             intGrid[row][column + 1] = 0;
-            totalCell--;
+            totalGreen--;
           }
 
           // left of cell pressed
           if(column > 0 && intGrid[row][column -1] == 1 ){
             intGrid[row][column - 1] = 0;
-            totalCell--;
+            totalGreen--;
           }
           else if(column > 0 && intGrid[row][column - 1] == 0 ){
             intGrid[row][column - 1] = 1;
-            totalCell++;
+            totalGreen++;
           }
 
-          System.out.println("Total of " + totalCell + " cells are selected");
+          System.out.println("Total of " + totalGreen + " cells are selected");
+
         }
       }
     }
+
+  // output cell count
+
+  for (row = 0; row < row_Count; row++) {
+
+    int rowCounter = 0;
+    int continuous = 0;
+    int maximum = 0;
+
+    for (column = 0; column < column_Count; column++) { 
+     if (intGrid[row][column] == 1) {
+        rowCounter++;
+        continuous++;
+        if (continuous > maximum) {
+          maximum = continuous;
+        }
+      }
+      else {
+        continuous = 0;
+      }
+    }
+
+    if (maximum > 2) {
+      System.out.println("There are " + maximum + " continuous blocks selected on row " + row + "." );
+    }
+
+    System.out.println("Row " + row + " has " + rowCounter + " cells selected.");
+
   }
 
+  for (column = 0; column < row_Count; column++) {
+    int column_Counter = 0;
+    for (row = 0; row < column_Count; row++) {
+      if (intGrid[row][column] == 1) {
+        column_Counter++;
+      }
+    }
+    
+    System.out.println("Column " + column + " has " + column_Counter + " cells selected.");
 
+  }
 
-
-
-
+}
 }
